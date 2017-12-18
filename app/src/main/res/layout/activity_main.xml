@@ -1,15 +1,67 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
+    android:id="@+id/canvasView"
+    android:background="@drawable/bg"
     android:layout_height="match_parent"
     tools:context="in.techfantasy.xmasgreeting.MainActivity">
 
-    <TextView
-        android:id="@+id/Activity"
+
+    <Button
+        android:id="@+id/button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Button" />
+
+
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="TextView" />
-</LinearLayout>
+        android:layout_gravity="bottom"
+        android:background="#e42525">
+
+
+
+        <ImageButton
+            android:id="@+id/imagetext"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/txt"
+            tools:layout_editor_absoluteX="0dp"
+            tools:layout_editor_absoluteY="16dp"
+            android:layout_marginLeft="30dp"/>
+
+
+        <ImageButton
+            android:id="@+id/imageqot"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/qot"
+            android:layout_marginLeft="30dp"
+            tools:layout_editor_absoluteX="96dp"
+            tools:layout_editor_absoluteY="16dp" />
+
+        <ImageButton
+            android:id="@+id/imagestickr"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/stk"
+            android:layout_marginLeft="30dp"
+            tools:layout_editor_absoluteX="200dp"
+            tools:layout_editor_absoluteY="7dp" />
+
+        <ImageButton
+            android:id="@+id/imagephoto"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="30dp"
+            android:src="@drawable/pic"
+
+            tools:layout_editor_absoluteX="296dp"
+            tools:layout_editor_absoluteY="7dp" />
+    </LinearLayout>
+
+</FrameLayout>
