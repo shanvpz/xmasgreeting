@@ -4,6 +4,7 @@ import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.RectF;
+import android.graphics.Typeface;
 import android.os.Build;
 import android.text.Layout.Alignment;
 import android.text.StaticLayout;
@@ -298,5 +299,10 @@ public class AutoResizeTextView extends android.support.v7.widget.AppCompatTextV
     public void setTextColor(int color) {
         super.setTextColor(color);
 
+    }
+
+    @Override
+    public void setTypeface(Typeface tf) {
+        super.setTypeface(tf);
     }
 }
