@@ -192,7 +192,7 @@ public class MainActivity extends AppCompatActivity {
         canvas.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                fam.close(true);
                 for(StickerTextView stv:stickerTextViewArrayList){
                     stv.setControlItemsHidden(true);
                 }
