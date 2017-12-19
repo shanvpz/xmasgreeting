@@ -8,6 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.GridView;
 import android.widget.LinearLayout;
@@ -19,6 +20,7 @@ import com.github.clans.fab.FloatingActionMenu;
 import com.skydoves.colorpickerview.ColorListener;
 import com.skydoves.colorpickerview.ColorPickerView;
 
+import java.util.ArrayList;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -27,6 +29,7 @@ public class MainActivity extends AppCompatActivity {
     Button btn;
     FrameLayout canvas;
     Dialog dialog;
+    ArrayList<StickerTextView> stickerTextViewArrayList=new ArrayList<StickerTextView>();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,23 +43,92 @@ public class MainActivity extends AppCompatActivity {
         btn=findViewById(R.id.button);
         btnText.setOnClickListener(new View.OnClickListener() {
              int i=0;
+            int textColor;
+            String font;
+            TextView txtAnnie,txtalco,txtabril,txtalmen,txtOk;
             @Override
             public void onClick(View view) {
-                fam.close(true);
-                i=i+1;
-                final StickerTextView sv=new StickerTextView(MainActivity.this);
-                sv.setText("Demo Text");
-                sv.setId(i);
 
-                //sv.setLayoutParams(params);
-                canvas.addView(sv);
+                fam.close(true);
+                dialog.setContentView(R.layout.dailogtext);
+                final EditText etxtText=dialog.findViewById(R.id.etxtTextAdd);
+                txtabril=dialog.findViewById(R.id.txtAbril);
+                txtalco=dialog.findViewById(R.id.txtAlco);
+                txtalmen=dialog.findViewById(R.id.txtAlmen);
+                txtAnnie=dialog.findViewById(R.id.txtAnnie);
+                txtOk=dialog.findViewById(R.id.txtSubmit);
+                ColorPickerView cpv=dialog.findViewById(R.id.colorPickerView);
+                cpv.setColorListener(new ColorListener() {
+                    @Override
+                    public void onColorSelected(int color) {
+                        etxtText.setTextColor(color);
+                        textColor=color;
+                    }
+                });
+                txtabril.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        font="abril_fatface.ttf";
+                    }
+                });
+                txtAnnie.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        font="annie_use_your_telescope.ttf";
+                    }
+                });
+                txtalmen.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        font="almendra_sc.ttf";
+                    }
+                });
+                txtalco.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        font="aclonica.ttf";
+                    }
+                });
+                dialog.show();
+
+
+                txtOk.setOnClickListener(new View.OnClickListener() {
+                    int i=0;
+
+                    @Override
+                    public void onClick(View view) {
+                        i++;
+                        final StickerTextView stv=new StickerTextView(MainActivity.this);
+                        stv.setText(etxtText.getText().toString());
+                        stv.setTextColor(textColor);
+                        stv.setId(i);
+                        //Typeface tf = Typeface.createFromAsset(MainActivity.this.getAssets(), font);
+                       // stv.setTypeFace(tf);
+                        stv.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                stv.setControlItemsHidden(false);
+                            }
+                        });
+                        stickerTextViewArrayList.add(stv);
+                        canvas.addView(stv);
+                        dialog.cancel();
+                    }
+                });
+//                i=i+1;
+//                final StickerTextView sv=new StickerTextView(MainActivity.this);
+//                sv.setText("Demo Text");
+//                sv.setId(i);
+//
+//                //sv.setLayoutParams(params);
+                //canvas.addView(sv);
             }
         });
 
         btnAbout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                fam.close(true);
             }
         });
 
@@ -64,7 +136,7 @@ public class MainActivity extends AppCompatActivity {
         btnShare.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                fam.close(true);
             }
         });
 
@@ -72,16 +144,17 @@ public class MainActivity extends AppCompatActivity {
         btnImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                fam.close(true);
             }
         });
 
         btnSticker.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                fam.close(true);
                 dialog.setContentView(R.layout.gridsticker);
                 GridView gridView=dialog.findViewById(R.id.gridsticker);
-                gridView.setAdapter(new ImageAdapter(MainActivity.this));
+                gridView.setAdapter(new StickerAdapter(MainActivity.this,new DataStore().images));
                 dialog.show();
 
 
@@ -106,12 +179,15 @@ public class MainActivity extends AppCompatActivity {
 //        canvas.addView(tv_sticker);
 
 
-//        canvas.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                tv_sticker.setControlItemsHidden(true);
-//            }
-//        });
+        canvas.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                for(StickerTextView stv:stickerTextViewArrayList){
+                    stv.setControlItemsHidden(true);
+                }
+            }
+        });
 //        canvas.setOnLongClickListener(new View.OnLongClickListener() {
 //            @Override
 //            public boolean onLongClick(View view) {

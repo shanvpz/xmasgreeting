@@ -10,7 +10,7 @@
 
 
     <EditText
-        android:id="@+id/edittext"
+        android:id="@+id/etxtTextAdd"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:ems="10"
@@ -24,7 +24,7 @@
         android:padding="10dp">
 
         <TextView
-            android:id="@+id/textfont"
+            android:id="@+id/txtAnnie"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -34,7 +34,7 @@
             android:textSize="24sp" />
 
         <TextView
-            android:id="@+id/textfont1"
+            android:id="@+id/txtAlco"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -44,7 +44,7 @@
             android:textSize="24sp" />
 
         <TextView
-            android:id="@+id/textfont2"
+            android:id="@+id/txtAbril"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -54,7 +54,7 @@
             android:textSize="24sp" />
 
         <TextView
-            android:id="@+id/textfont3"
+            android:id="@+id/txtAlmen"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -82,16 +82,13 @@
             />
 
     </LinearLayout>
-<view
-    android:layout_width="match_parent"
-    android:layout_height="30dp"
-    android:background="#1b77e7">
+
     <TextView
-        android:id="@+id/textok"
+        android:id="@+id/txtSubmit"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="OK"
         android:textAlignment="center"/>
-</view>
+
 
 </LinearLayout>

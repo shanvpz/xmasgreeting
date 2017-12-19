@@ -16,10 +16,11 @@ import in.techfantasy.xmasgreeting.R;
  * Created by campusiq on 19/12/17.
  */
 
-public class ImageAdapter extends BaseAdapter {
+public class StickerAdapter extends BaseAdapter {
     private Context Context;
-    public ImageAdapter(Context c) {
-
+    int[] images;
+    public StickerAdapter(Context c,int[] images) {
+        this.images=images;
         Context = c;
     }
     @Override
@@ -46,12 +47,5 @@ public class ImageAdapter extends BaseAdapter {
         imageView.setImageResource(images[i]);
         return view1;
     }
-    public int[] images={R.drawable.image1,R.drawable.image2,R.drawable.image3,
-                         R.drawable.image4,R.drawable.image5,R.drawable.image6,
-                         R.drawable.image7, R.drawable.image8,R.drawable.image9,
-                         R.drawable.image10,R.drawable.image11,R.drawable.image12,
-                         R.drawable.image13,R.drawable.image14,R.drawable.image15,
-                         R.drawable.image16,R.drawable.image17,R.drawable.image18,
-                         R.drawable.image19,R.drawable.image20,
-                         };
+
 }
