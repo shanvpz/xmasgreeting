@@ -1,19 +1,16 @@
 package in.techfantasy.xmasgreeting;
 
 import android.app.Dialog;
-import android.content.Context;
-import android.graphics.Color;
 import android.graphics.Typeface;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.GridView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.github.clans.fab.FloatingActionButton;
 import com.github.clans.fab.FloatingActionMenu;
@@ -30,6 +27,7 @@ public class MainActivity extends AppCompatActivity {
     FrameLayout canvas;
     Dialog dialog;
     ArrayList<StickerTextView> stickerTextViewArrayList=new ArrayList<StickerTextView>();
+    ArrayList<StickerImageView> stickerImageViewArrayList=new ArrayList<StickerImageView>();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -103,7 +101,7 @@ public class MainActivity extends AppCompatActivity {
                         stv.setTextColor(textColor);
                         stv.setId(i);
                         //Typeface tf = Typeface.createFromAsset(MainActivity.this.getAssets(), font);
-                       // stv.setTypeFace(tf);
+                        //stv.setTypeFace(tf);
                         stv.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View view) {
@@ -152,9 +150,20 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 fam.close(true);
+                final int[] iarray=new DataStore().stickers;
                 dialog.setContentView(R.layout.gridsticker);
                 GridView gridView=dialog.findViewById(R.id.gridsticker);
-                gridView.setAdapter(new StickerAdapter(MainActivity.this,new DataStore().stickers));
+                gridView.setAdapter(new GridAdapter(MainActivity.this,new DataStore().stickers));
+                gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                        StickerImageView siv=new StickerImageView(MainActivity.this);
+                        siv.setImageDrawable(getResources().getDrawable(iarray[i]));
+                        stickerImageViewArrayList.add(siv);
+                        canvas.addView(siv);
+                        dialog.cancel();
+                    }
+                });
                 dialog.show();
 
 
@@ -185,6 +194,9 @@ public class MainActivity extends AppCompatActivity {
 
                 for(StickerTextView stv:stickerTextViewArrayList){
                     stv.setControlItemsHidden(true);
+                }
+                for(StickerImageView siv:stickerImageViewArrayList){
+                    siv.setControlItemsHidden(true);
                 }
             }
         });

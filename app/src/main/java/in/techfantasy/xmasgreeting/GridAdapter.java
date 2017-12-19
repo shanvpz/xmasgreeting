@@ -16,10 +16,10 @@ import in.techfantasy.xmasgreeting.R;
  * Created by campusiq on 19/12/17.
  */
 
-public class StickerAdapter extends BaseAdapter {
+public class GridAdapter extends BaseAdapter {
     private Context Context;
     int[] images;
-    public StickerAdapter(Context c,int[] images) {
+    public GridAdapter(Context c, int[] images) {
         this.images=images;
         Context = c;
     }
