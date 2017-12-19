@@ -36,6 +36,7 @@ public class MainActivity extends AppCompatActivity {
     ArrayList<StickerTextView> stickerTextViewArrayList=new ArrayList<StickerTextView>();
     ArrayList<StickerImageView> stickerImageViewArrayList=new ArrayList<StickerImageView>();
     Intent intent;
+    @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -184,7 +185,7 @@ public class MainActivity extends AppCompatActivity {
                 dialog.setContentView(R.layout.dailoggreeting);
                 RecyclerView rv=dialog.findViewById(R.id.greetingrecycle);
                 rv.setLayoutManager(new LinearLayoutManager(MainActivity.this,LinearLayoutManager.VERTICAL,false));
-                //rv.setAdapter(new CardAdapter());
+                rv.setAdapter(new CardAdapter(MainActivity.this,new DataStore().greetings));
             }
         });
 
@@ -223,6 +224,7 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
     public void initialize(){
         btnText=findViewById(R.id.btnText);
         btnGreetings=findViewById(R.id.btnGreetings);
@@ -234,9 +236,9 @@ public class MainActivity extends AppCompatActivity {
         canvas = (FrameLayout) findViewById(R.id.canvasView);
         dialog=new Dialog(this);
         intent=getIntent();
-        int bgkey=Integer.parseInt(intent.getStringExtra("backgroundkey"));
+        int bgkey=intent.getIntExtra("backgroundkey",0);
         int bgid=new DataStore().background[bgkey];
 
-        //canvas.setBackground(getResources().getDrawable(bgid));
+        canvas.setBackground(getResources().getDrawable(bgid));
     }
 }
