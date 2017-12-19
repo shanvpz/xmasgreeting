@@ -154,7 +154,7 @@ public class MainActivity extends AppCompatActivity {
                 fam.close(true);
                 dialog.setContentView(R.layout.gridsticker);
                 GridView gridView=dialog.findViewById(R.id.gridsticker);
-                gridView.setAdapter(new ImageAdapter(MainActivity.this));
+                gridView.setAdapter(new StickerAdapter(MainActivity.this));
                 dialog.show();
 
 
