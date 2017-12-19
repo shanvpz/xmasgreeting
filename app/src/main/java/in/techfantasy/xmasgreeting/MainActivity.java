@@ -17,7 +17,7 @@ import com.github.clans.fab.FloatingActionMenu;
 import com.skydoves.colorpickerview.ColorListener;
 import com.skydoves.colorpickerview.ColorPickerView;
 
-import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
+
 
 public class MainActivity extends AppCompatActivity {
     FloatingActionMenu fam;
@@ -32,6 +32,7 @@ public class MainActivity extends AppCompatActivity {
         getSupportActionBar().hide();
         initialize();
        // final LinearLayout.LayoutParams params=new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+        
 
 
         btn=findViewById(R.id.button);
@@ -53,18 +54,6 @@ public class MainActivity extends AppCompatActivity {
         btnAbout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                fam.close(true);
-                dialog.setContentView(R.layout.testlayout);
-                final LinearLayout ll=dialog.findViewById(R.id.ll);
-                ColorPickerView cpv=dialog.findViewById(R.id.colorPickerView);
-
-                cpv.setColorListener(new ColorListener() {
-                    @Override
-                    public void onColorSelected(int color) {
-                        ll.setBackgroundColor(color);
-                    }
-                });
-                dialog.show();
 
             }
         });
