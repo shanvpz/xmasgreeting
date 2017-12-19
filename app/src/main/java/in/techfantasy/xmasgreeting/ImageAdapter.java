@@ -19,6 +19,7 @@ import in.techfantasy.xmasgreeting.R;
 public class ImageAdapter extends BaseAdapter {
     private Context Context;
     public ImageAdapter(Context c) {
+
         Context = c;
     }
     @Override
@@ -39,11 +40,11 @@ public class ImageAdapter extends BaseAdapter {
     @Override
     public View getView(int i, View view, ViewGroup viewGroup) {
         LayoutInflater inflater=(LayoutInflater)Context.getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
-        View view1= view;
+        View view1;
         view1=inflater.inflate(R.layout.dailogsticker,null);
         ImageView imageView=view1.findViewById(R.id.images);
         imageView.setImageResource(images[i]);
-        return null;
+        return view1;
     }
     public int[] images={R.drawable.image1,R.drawable.image2,R.drawable.image3,
                          R.drawable.image4,R.drawable.image5,R.drawable.image6,
