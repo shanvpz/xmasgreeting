@@ -3,6 +3,7 @@ package in.techfantasy.xmasgreeting;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.graphics.Typeface;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.view.Gravity;
@@ -79,5 +80,7 @@ public class StickerTextView extends StickerView{
         tv_main.setTextColor(color);
     }
 
-
+    public void setTypeFace(Typeface tf){
+        tv_main.setTypeface(tf);
+    }
 }
