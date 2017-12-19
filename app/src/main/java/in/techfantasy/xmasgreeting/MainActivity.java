@@ -1,6 +1,7 @@
 package in.techfantasy.xmasgreeting;
 
 import android.app.Dialog;
+import android.graphics.Color;
 import android.graphics.Typeface;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -41,7 +42,7 @@ public class MainActivity extends AppCompatActivity {
         btn=findViewById(R.id.button);
         btnText.setOnClickListener(new View.OnClickListener() {
              int i=0;
-            int textColor;
+            int textColor= Color.BLACK;
             String font;
             TextView txtAnnie,txtalco,txtabril,txtalmen,txtOk;
             @Override
