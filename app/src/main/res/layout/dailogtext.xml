@@ -3,6 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:padding="10dp">
@@ -27,28 +28,40 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="TextView" />
+            android:fontFamily="@font/annie_use_your_telescope"
+            android:gravity="center_horizontal"
+            android:text="Abc"
+            android:textSize="24sp" />
 
         <TextView
             android:id="@+id/textfont1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="TextView" />
+            android:fontFamily="@font/aclonica"
+            android:gravity="center_horizontal"
+            android:text="Abc"
+            android:textSize="24sp" />
 
         <TextView
             android:id="@+id/textfont2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="TextView" />
+            android:fontFamily="@font/abril_fatface"
+            android:gravity="center_horizontal"
+            android:text="Abc"
+            android:textSize="24sp" />
 
         <TextView
             android:id="@+id/textfont3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="TextView" />
+            android:fontFamily="@font/almendra_sc"
+            android:gravity="center_horizontal"
+            android:text="Abc"
+            android:textSize="24sp" />
 
     </LinearLayout>
 
@@ -59,30 +72,26 @@
         android:orientation="horizontal"
         android:padding="10dp">
 
-        <TextView
-            android:id="@+id/textcolor"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:textAlignment="center"
-            android:text="COLOR" />
-
-        <!--<Button-->
-            <!--android:id="@+id/btncolorpicker"-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_marginLeft="30dp"-->
-            <!--android:text="Button" />-->
-
+        <com.skydoves.colorpickerview.ColorPickerView
+            android:id="@+id/colorPickerView"
+            android:layout_width="match_parent"
+            android:gravity="center_horizontal"
+            android:layout_height="300dp"
+            app:palette="@drawable/palette"
+            app:selector="@drawable/wheel"
+            />
 
     </LinearLayout>
-
+<view
+    android:layout_width="match_parent"
+    android:layout_height="30dp"
+    android:background="#1b77e7">
     <TextView
         android:id="@+id/textok"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="OK"
         android:textAlignment="center"/>
-
+</view>
 
 </LinearLayout>
