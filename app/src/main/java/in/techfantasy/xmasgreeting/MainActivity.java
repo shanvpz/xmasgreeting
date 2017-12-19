@@ -1,10 +1,16 @@
 package in.techfantasy.xmasgreeting;
 
 import android.app.Dialog;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Typeface;
+import android.graphics.drawable.Drawable;
+import android.os.Build;
+import android.support.annotation.RequiresApi;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
@@ -29,6 +35,8 @@ public class MainActivity extends AppCompatActivity {
     Dialog dialog;
     ArrayList<StickerTextView> stickerTextViewArrayList=new ArrayList<StickerTextView>();
     ArrayList<StickerImageView> stickerImageViewArrayList=new ArrayList<StickerImageView>();
+    Intent intent;
+    @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -174,7 +182,10 @@ public class MainActivity extends AppCompatActivity {
         btnGreetings.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                dialog.setContentView(R.layout.dailoggreeting);
+                RecyclerView rv=dialog.findViewById(R.id.greetingrecycle);
+                rv.setLayoutManager(new LinearLayoutManager(MainActivity.this,LinearLayoutManager.VERTICAL,false));
+                rv.setAdapter(new CardAdapter(MainActivity.this,new DataStore().greetings));
             }
         });
 
@@ -212,6 +223,8 @@ public class MainActivity extends AppCompatActivity {
 
 
     }
+
+    @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
     public void initialize(){
         btnText=findViewById(R.id.btnText);
         btnGreetings=findViewById(R.id.btnGreetings);
@@ -222,5 +235,10 @@ public class MainActivity extends AppCompatActivity {
         fam=findViewById(R.id.menu);
         canvas = (FrameLayout) findViewById(R.id.canvasView);
         dialog=new Dialog(this);
+        intent=getIntent();
+        int bgkey=intent.getIntExtra("backgroundkey",0);
+        int bgid=new DataStore().background[bgkey];
+
+        canvas.setBackground(getResources().getDrawable(bgid));
     }
 }
