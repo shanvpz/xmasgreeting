@@ -1,24 +1,15 @@
 package in.techfantasy.xmasgreeting;
 
 import android.app.Dialog;
-import android.content.Context;
-import android.graphics.Color;
-import android.graphics.Typeface;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.GridView;
-import android.widget.LinearLayout;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import com.github.clans.fab.FloatingActionButton;
 import com.github.clans.fab.FloatingActionMenu;
-import com.skydoves.colorpickerview.ColorListener;
-import com.skydoves.colorpickerview.ColorPickerView;
-
 
 
 public class MainActivity extends AppCompatActivity {
@@ -81,7 +72,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 dialog.setContentView(R.layout.gridsticker);
                 GridView gridView=dialog.findViewById(R.id.gridsticker);
-                gridView.setAdapter(new ImageAdapter(MainActivity.this));
+                gridView.setAdapter(new StickerAdapter(MainActivity.this));
                 dialog.show();
 
 
