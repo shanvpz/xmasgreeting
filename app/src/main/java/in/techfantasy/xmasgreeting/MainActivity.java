@@ -1,6 +1,7 @@
 package in.techfantasy.xmasgreeting;
 
 import android.app.Dialog;
+import android.content.Context;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.support.v7.app.AppCompatActivity;
@@ -8,6 +9,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.FrameLayout;
+import android.widget.GridView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -77,6 +79,11 @@ public class MainActivity extends AppCompatActivity {
         btnSticker.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                dialog.setContentView(R.layout.gridsticker);
+                GridView gridView=dialog.findViewById(R.id.gridsticker);
+                gridView.setAdapter(new ImageAdapter(MainActivity.this));
+                dialog.show();
+
 
             }
         });
