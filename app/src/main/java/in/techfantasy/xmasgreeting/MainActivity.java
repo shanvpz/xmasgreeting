@@ -186,6 +186,7 @@ public class MainActivity extends AppCompatActivity {
                 RecyclerView rv=dialog.findViewById(R.id.greetingrecycle);
                 rv.setLayoutManager(new LinearLayoutManager(MainActivity.this,LinearLayoutManager.VERTICAL,false));
                 rv.setAdapter(new CardAdapter(MainActivity.this,new DataStore().greetings));
+                dialog.show();
             }
         });
 
