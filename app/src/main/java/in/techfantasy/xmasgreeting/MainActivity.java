@@ -504,7 +504,7 @@ public class MainActivity extends AppCompatActivity {
             dialog.show();
         }
         else{
-            Toast.makeText(MainActivity.this,"Operation Cancelled",Toast.LENGTH_SHORT).show();
+            //Toast.makeText(MainActivity.this,"Operation Cancelled",Toast.LENGTH_SHORT).show();
         }
 
 
