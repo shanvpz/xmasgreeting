@@ -170,6 +170,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 fam.close(true);
                 dialog=new Dialog(MainActivity.this);
+
                 dialog.setContentView(R.layout.dailogabout);
                 dialog.setCanceledOnTouchOutside(true);
                 dialog.show();
