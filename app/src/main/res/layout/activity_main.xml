@@ -11,15 +11,15 @@
 <FrameLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:id="@+id/canvasView"
-    android:background="@drawable/bg"
-    >
-    <Button
-        android:id="@+id/button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Button" />
+    android:id="@+id/canvasView">
 
+
+    <ImageView
+        android:id="@+id/bgImageView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="fitXY"
+        app:srcCompat="@drawable/bg" />
 </FrameLayout>
 
     <com.github.clans.fab.FloatingActionMenu
@@ -65,7 +65,7 @@
         fab:menu_labels_position="left"
         fab:menu_openDirection="up"
         fab:menu_backgroundColor="@android:color/transparent"
-        fab:menu_fab_label="Edit">
+        fab:menu_fab_label="">
 
         <com.github.clans.fab.FloatingActionButton
             android:id="@+id/btnText"
