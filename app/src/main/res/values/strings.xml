@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Christmas Wishes</string>
+    <string name="frmgallery"><u>Choose from gallery</u></string>
 </resources>

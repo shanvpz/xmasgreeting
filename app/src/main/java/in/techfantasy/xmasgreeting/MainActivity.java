@@ -2,6 +2,7 @@ package in.techfantasy.xmasgreeting;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.ActivityNotFoundException;
 import android.content.ComponentName;
 import android.content.Context;
@@ -181,8 +182,8 @@ public class MainActivity extends AppCompatActivity {
         btnShare.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-                //dialog.setContentView();
+//
+                fam.close(true);
 
                 canvas.setDrawingCacheEnabled(true);
                 canvas.buildDrawingCache();
@@ -241,7 +242,6 @@ public class MainActivity extends AppCompatActivity {
                     openInChooser.putExtra(Intent.EXTRA_INITIAL_INTENTS, extraIntents);
                     startActivity(openInChooser);
 
-                fam.close(true);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
