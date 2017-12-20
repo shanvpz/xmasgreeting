@@ -33,8 +33,21 @@ public class StickerTextView extends StickerView{
 
     @Override
     public View getMainView() {
-        if(tv_main != null)
+        if(tv_main != null) {
+            if(tv_main.length()>16){
+                tv_main.setMaxLines(2);
+            }
+            else if(tv_main.length()>32){
+                tv_main.setMaxLines(3);
+            }
+            else if(tv_main.length()>48){
+                tv_main.setMaxLines(4);
+            }
+            else if(tv_main.length()>56){
+                tv_main.setMaxLines(5);
+            }
             return tv_main;
+        }
 
         tv_main = new AutoResizeTextView(getContext());
         //tv_main.setTextSize(22);
