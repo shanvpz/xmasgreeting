@@ -42,7 +42,7 @@
                 android:id="@+id/textView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Exception"
+                android:text="Exceptions"
                 android:textAlignment="center"
                 android:textColor="@color/cardview_dark_background"
                 android:textSize="30sp" />
@@ -81,7 +81,7 @@
                 android:id="@+id/textView6"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Team Exception"
+                android:text="Team Exceptions"
                 android:textAlignment="center"
                 android:textColor="@color/cardview_dark_background"
                 android:textSize="18sp" />
