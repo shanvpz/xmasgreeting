@@ -52,7 +52,7 @@ public class MainActivity extends AppCompatActivity {
     ArrayList<StickerImageView> stickerImageViewArrayList=new ArrayList<StickerImageView>();
     static ArrayList<StickerTextView> greetArrayList=new ArrayList<StickerTextView>();
     Intent intent;
-    @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -287,6 +287,9 @@ public class MainActivity extends AppCompatActivity {
                 for(StickerImageView siv:stickerImageViewArrayList){
                     siv.setControlItemsHidden(true);
                 }
+                for (StickerTextView stvg:greetArrayList){
+                    stvg.setControlItemsHidden(true);
+                }
             }
         });
 //        canvas.setOnLongClickListener(new View.OnLongClickListener() {
@@ -301,7 +304,7 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
+
     public void initialize(){
         btnText=findViewById(R.id.btnText);
         btnGreetings=findViewById(R.id.btnGreetings);
