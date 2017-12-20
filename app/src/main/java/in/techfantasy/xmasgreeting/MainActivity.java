@@ -1,18 +1,24 @@
 package in.techfantasy.xmasgreeting;
 
 import android.app.Dialog;
+import android.content.ActivityNotFoundException;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.LabeledIntent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
+import android.content.res.Resources;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Build;
+import android.os.Handler;
+import android.os.Parcelable;
+import android.provider.MediaStore;
 import android.support.annotation.RequiresApi;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -26,9 +32,14 @@ import android.widget.FrameLayout;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
+
 
 import com.github.clans.fab.FloatingActionButton;
 import com.github.clans.fab.FloatingActionMenu;
+import com.isseiaoki.simplecropview.CropImageView;
+import com.isseiaoki.simplecropview.callback.CropCallback;
+import com.isseiaoki.simplecropview.callback.LoadCallback;
 import com.skydoves.colorpickerview.ColorListener;
 import com.skydoves.colorpickerview.ColorPickerView;
 
@@ -51,8 +62,11 @@ public class MainActivity extends AppCompatActivity {
     ArrayList<StickerTextView> stickerTextViewArrayList=new ArrayList<StickerTextView>();
     ArrayList<StickerImageView> stickerImageViewArrayList=new ArrayList<StickerImageView>();
     static ArrayList<StickerTextView> greetArrayList=new ArrayList<StickerTextView>();
+    ArrayList<StickerImageView> imagesArrayList = new ArrayList<StickerImageView>();
     Intent intent;
-
+    private Uri picUri;
+    final int CROP_PIC = 2;
+    boolean doubleBackToExitPressedOnce = false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -81,6 +95,7 @@ public class MainActivity extends AppCompatActivity {
                 txtAnnie=dialog.findViewById(R.id.txtAnnie);
                 txtOk=dialog.findViewById(R.id.txtSubmit);
                 ColorPickerView cpv=dialog.findViewById(R.id.colorPickerView);
+
                 cpv.setColorListener(new ColorListener() {
                     @Override
                     public void onColorSelected(int color) {
@@ -232,6 +247,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 fam.close(true);
+                startActivityForResult(getPickImageChooserIntent(),123);
             }
         });
 
@@ -292,6 +308,9 @@ public class MainActivity extends AppCompatActivity {
                 for (StickerTextView stvg:greetArrayList){
                     stvg.setControlItemsHidden(true);
                 }
+                for (StickerImageView sivi:imagesArrayList){
+                    sivi.setControlItemsHidden(true);
+                }
             }
         });
 //        canvas.setOnLongClickListener(new View.OnLongClickListener() {
@@ -333,6 +352,7 @@ public class MainActivity extends AppCompatActivity {
         stv.setId(greetcount);
         //Typeface tf = Typeface.createFromAsset(MainActivity.this.getAssets(), font);
         //stv.setTypeFace(tf);
+
         stv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -349,5 +369,195 @@ public class MainActivity extends AppCompatActivity {
         intent.putExtra("savetogallery", imgUri.toString());
         return new LabeledIntent(intent, BuildConfig.APPLICATION_ID,
                 "Save to gallery",android.R.drawable.ic_menu_save );
+    }
+
+    public Intent getPickImageChooserIntent() {
+
+// Determine Uri of camera image to  save.
+        Uri outputFileUri =  getCaptureImageOutputUri();
+
+        List<Intent> allIntents = new  ArrayList<>();
+        PackageManager packageManager =  getPackageManager();
+
+// collect all camera intents
+//        Intent captureIntent = new  Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
+//        List<ResolveInfo> listCam =  packageManager.queryIntentActivities(captureIntent, 0);
+//        for (ResolveInfo res : listCam) {
+//            Intent intent = new  Intent(captureIntent);
+//            intent.setComponent(new ComponentName(res.activityInfo.packageName, res.activityInfo.name));
+//            intent.setPackage(res.activityInfo.packageName);
+//            if (outputFileUri != null) {
+//                intent.putExtra(MediaStore.EXTRA_OUTPUT, outputFileUri);
+//            }
+//            allIntents.add(intent);
+//        }
+
+// collect all gallery intents
+        Intent galleryIntent = new  Intent(Intent.ACTION_GET_CONTENT);
+        galleryIntent.setType("image/*");
+        List<ResolveInfo> listGallery =  packageManager.queryIntentActivities(galleryIntent, 0);
+        for (ResolveInfo res : listGallery) {
+            Intent intent = new  Intent(galleryIntent);
+            intent.setComponent(new  ComponentName(res.activityInfo.packageName, res.activityInfo.name));
+            intent.setPackage(res.activityInfo.packageName);
+            allIntents.add(intent);
+        }
+
+// the main intent is the last in the  list (fucking android) so pickup the useless one
+        Intent mainIntent =  allIntents.get(allIntents.size() - 1);
+        for (Intent intent : allIntents) {
+            if  (intent.getComponent().getClassName().equals("com.android.documentsui.DocumentsActivity"))  {
+                mainIntent = intent;
+                break;
+            }
+        }
+
+        //Intent removeintent=new Intent(getContext(),com.campusiq.manappuramdesign.MainActivity.class);
+        //removeintent.putExtra("key","removepic");
+        //allIntents.add(removeintent);
+        allIntents.remove(mainIntent);
+
+// Create a chooser from the main  intent
+        Intent chooserIntent =  Intent.createChooser(mainIntent, "Select source");
+
+// Add all other intents
+        chooserIntent.putExtra(Intent.EXTRA_INITIAL_INTENTS,  allIntents.toArray(new Parcelable[allIntents.size()]));
+
+        return chooserIntent;
+    }
+
+
+
+    private Uri getCaptureImageOutputUri() {
+        Uri outputFileUri = null;
+        File getImage = getExternalCacheDir();
+        if (getImage != null) {
+            outputFileUri = Uri.fromFile(new  File(getImage.getPath(), "pickImageResult.jpeg"));
+        }
+        return outputFileUri;
+    }
+
+
+    public Uri getPickImageResultUri(Intent  data) {
+        boolean isCamera = true;
+        if (data != null && data.getData() != null) {
+            String action = data.getAction();
+            isCamera = action != null  && action.equals(MediaStore.ACTION_IMAGE_CAPTURE);
+        }
+        return isCamera ?  getCaptureImageOutputUri() : data.getData();
+    }
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if(resultCode==RESULT_OK) {
+            final Uri imageUri = getPickImageResultUri(data);
+
+
+            Bitmap bitmap = null;
+
+            try {
+                bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), imageUri);
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            dialog = new Dialog(MainActivity.this);
+            dialog.setContentView(R.layout.croplayout);
+            final CropImageView mCropView = (CropImageView) dialog.findViewById(R.id.cropImageView);
+            Button btnCrop = dialog.findViewById(R.id.btnCrop);
+            mCropView.setCropMode(CropImageView.CropMode.SQUARE);
+
+            //mCropView.load(imageUri).executeAsCompletable();
+            mCropView.setImageBitmap(bitmap);
+            btnCrop.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    mCropView.crop(imageUri)
+                            .execute(new CropCallback() {
+                                @Override
+                                public void onSuccess(Bitmap cropped) {
+                                    StickerImageView siv = new StickerImageView(MainActivity.this);
+                                    siv.setImageBitmap(cropped);
+                                    imagesArrayList.add(siv);
+                                    canvas.addView(siv);
+                                    dialog.cancel();
+                                    File getImage = getExternalCacheDir();
+                                    getImage.delete();
+                                }
+
+                                @Override
+                                public void onError(Throwable e) {
+                                    Toast.makeText(MainActivity.this,"Error adding Image",Toast.LENGTH_SHORT).show();
+                                }
+                            });
+                }
+            });
+
+
+            dialog.show();
+        }
+        else{
+            Toast.makeText(MainActivity.this,"Operation Cancelled",Toast.LENGTH_SHORT).show();
+        }
+
+
+    }
+    public static int calculateInSampleSize(
+            BitmapFactory.Options options, int reqWidth, int reqHeight) {
+        // Raw height and width of image
+        final int height = options.outHeight;
+        final int width = options.outWidth;
+        int inSampleSize = 1;
+
+        if (height > reqHeight || width > reqWidth) {
+
+            final int halfHeight = height / 2;
+            final int halfWidth = width / 2;
+
+            // Calculate the largest inSampleSize value that is a power of 2 and keeps both
+            // height and width larger than the requested height and width.
+            while ((halfHeight / inSampleSize) >= reqHeight
+                    && (halfWidth / inSampleSize) >= reqWidth) {
+                inSampleSize *= 2;
+            }
+        }
+
+        return inSampleSize;
+    }
+
+    public static Bitmap decodeSampledBitmapFromResource(Resources res, int resId,
+                                                         int reqWidth, int reqHeight) {
+
+        // First decode with inJustDecodeBounds=true to check dimensions
+        final BitmapFactory.Options options = new BitmapFactory.Options();
+        options.inJustDecodeBounds = true;
+        BitmapFactory.decodeResource(res, resId, options);
+
+        // Calculate inSampleSize
+        options.inSampleSize = calculateInSampleSize(options, reqWidth, reqHeight);
+
+        // Decode bitmap with inSampleSize set
+        options.inJustDecodeBounds = false;
+        return BitmapFactory.decodeResource(res, resId, options);
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (doubleBackToExitPressedOnce) {
+            super.onBackPressed();
+            return;
+        }
+
+        this.doubleBackToExitPressedOnce = true;
+        Toast.makeText(this, "Please Click BACK Again To Exit", Toast.LENGTH_SHORT).show();
+
+        new Handler().postDelayed(new Runnable() {
+
+            @Override
+            public void run() {
+                doubleBackToExitPressedOnce=false;
+            }
+        }, 500);
     }
 }
