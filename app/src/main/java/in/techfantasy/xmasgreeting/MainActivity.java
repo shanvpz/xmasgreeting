@@ -240,7 +240,7 @@ public class MainActivity extends AppCompatActivity {
                 final int[] iarray=new DataStore().stickers;
                 dialog.setContentView(R.layout.gridsticker);
                 GridView gridView=dialog.findViewById(R.id.gridsticker);
-                gridView.setAdapter(new GridAdapter(MainActivity.this,new DataStore().stickers));
+                gridView.setAdapter(new BackgroundGridAdapter(MainActivity.this,new DataStore().stickers));
                 gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                     @Override
                     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
