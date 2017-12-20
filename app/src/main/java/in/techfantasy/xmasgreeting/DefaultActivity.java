@@ -1,17 +1,18 @@
 package in.techfantasy.xmasgreeting;
 
 import android.Manifest;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Build;
+import android.os.Bundle;
 import android.os.Handler;
 import android.provider.Settings;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.GridView;
@@ -58,7 +59,7 @@ GridView gridview;
         if (hasCameraPermission != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(DefaultActivity.this, new String[]{Manifest.permission.CAMERA,Manifest.permission.READ_EXTERNAL_STORAGE,Manifest.permission.WRITE_EXTERNAL_STORAGE}, REQUEST_CODE_ASK_PERMISSIONS);
         } else {
-            Toast.makeText(DefaultActivity.this, "Runtime Permission is already granted", Toast.LENGTH_SHORT).show();
+            //Toast.makeText(DefaultActivity.this, "Welcome", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -99,7 +100,7 @@ GridView gridview;
         }
 
         this.doubleBackToExitPressedOnce = true;
-        Toast.makeText(this, "Please Click BACK Again To Exit", Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "Press one more time to exit", Toast.LENGTH_SHORT).show();
 
         new Handler().postDelayed(new Runnable() {
 
@@ -107,6 +108,6 @@ GridView gridview;
             public void run() {
                 doubleBackToExitPressedOnce=false;
             }
-        }, 500);
+        }, 1900);
     }
 }
