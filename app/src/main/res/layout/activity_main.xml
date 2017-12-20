@@ -71,7 +71,7 @@
             android:id="@+id/btnText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/ic_launcher_background"
+            android:src="@drawable/texticon"
             fab:fab_size="mini"
             fab:fab_label="Add Text" />
 
@@ -79,7 +79,7 @@
             android:id="@+id/btnGreetings"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/ic_launcher_background"
+            android:src="@drawable/qout"
             fab:fab_size="mini"
             fab:fab_label="Add Greetings" />
 
@@ -87,7 +87,7 @@
             android:id="@+id/btnSticker"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/ic_launcher_background"
+            android:src="@drawable/stickericon"
             fab:fab_size="mini"
             fab:fab_label="Add Sticker" />
 
@@ -97,7 +97,7 @@
             android:id="@+id/btnImage"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/ic_launcher_background"
+            android:src="@drawable/imageicon"
             fab:fab_size="mini"
             fab:fab_label="Add Image" />
 
@@ -105,7 +105,7 @@
             android:id="@+id/btnSaveShare"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/ic_launcher_background"
+            android:src="@drawable/shareicon"
             fab:fab_size="mini"
             fab:fab_label="Save/Share" />
 
@@ -113,7 +113,7 @@
             android:id="@+id/btnAbout"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/ic_launcher_background"
+            android:src="@drawable/aboutus"
             fab:fab_size="mini"
             fab:fab_label="About Us" />
 
