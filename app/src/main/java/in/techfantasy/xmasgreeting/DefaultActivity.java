@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.GridView;
-import android.widget.TextView;
 
 public class DefaultActivity extends AppCompatActivity {
 
@@ -17,7 +16,9 @@ GridView gridview;
         setContentView(R.layout.activity_default);
 
         gridview=findViewById(R.id.gridbackground);
-        gridview.setAdapter(new GridAdapter(DefaultActivity.this,new DataStore().background));
+
+
+        gridview.setAdapter(new BackgroundGridAdapter(DefaultActivity.this,new DataStore().background));
 
         gridview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
