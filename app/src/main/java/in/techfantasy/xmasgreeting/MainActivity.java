@@ -1,6 +1,7 @@
 package in.techfantasy.xmasgreeting;
 
 import android.app.Dialog;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Typeface;
@@ -17,6 +18,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.GridView;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.github.clans.fab.FloatingActionButton;
@@ -31,10 +33,13 @@ public class MainActivity extends AppCompatActivity {
     FloatingActionMenu fam;
     FloatingActionButton btnText,btnGreetings,btnSticker,btnImage,btnShare,btnAbout;
     Button btn;
-    FrameLayout canvas;
+    static FrameLayout canvas;
     Dialog dialog;
+    ImageView bgiv;
+    static int greetcount=0;
     ArrayList<StickerTextView> stickerTextViewArrayList=new ArrayList<StickerTextView>();
     ArrayList<StickerImageView> stickerImageViewArrayList=new ArrayList<StickerImageView>();
+    static ArrayList<StickerTextView> greetArrayList=new ArrayList<StickerTextView>();
     Intent intent;
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
     @Override
@@ -47,7 +52,7 @@ public class MainActivity extends AppCompatActivity {
         
 
 
-        btn=findViewById(R.id.button);
+
         btnText.setOnClickListener(new View.OnClickListener() {
              int i=0;
             int textColor= Color.BLACK;
@@ -239,7 +244,26 @@ public class MainActivity extends AppCompatActivity {
         intent=getIntent();
         int bgkey=intent.getIntExtra("backgroundkey",0);
         int bgid=new DataStore().background[bgkey];
+        bgiv=findViewById(R.id.bgImageView);
+        bgiv.setImageDrawable(getResources().getDrawable(bgid));
+//        canvas.setBackground(getResources().getDrawable(bgid));
+    }
+    public static void addGreet(String msg,Context ctx,int textColor){
 
-        canvas.setBackground(getResources().getDrawable(bgid));
+        greetcount++;
+        final StickerTextView stv=new StickerTextView(ctx);
+        stv.setText(msg);
+        stv.setTextColor(textColor);
+        stv.setId(greetcount);
+        //Typeface tf = Typeface.createFromAsset(MainActivity.this.getAssets(), font);
+        //stv.setTypeFace(tf);
+        stv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                stv.setControlItemsHidden(false);
+            }
+        });
+        greetArrayList.add(stv);
+        canvas.addView(stv);
     }
 }

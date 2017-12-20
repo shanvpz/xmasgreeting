@@ -306,4 +306,5 @@ public class AutoResizeTextView extends android.support.v7.widget.AppCompatTextV
         super.setTypeface(tf);
     }
 
+
 }
