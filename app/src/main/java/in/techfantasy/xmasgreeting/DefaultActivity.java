@@ -25,6 +25,7 @@ GridView gridview;
                 Intent intmain=new Intent(DefaultActivity.this,MainActivity.class);
                 intmain.putExtra("backgroundkey",i);
                 startActivity(intmain);
+                finish();
             }
         });
 
