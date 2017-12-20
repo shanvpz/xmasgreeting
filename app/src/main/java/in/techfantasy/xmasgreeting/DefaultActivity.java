@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Build;
+import android.os.Handler;
 import android.provider.Settings;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
@@ -19,6 +20,7 @@ import android.widget.Toast;
 
 public class DefaultActivity extends AppCompatActivity {
     final int REQUEST_CODE_ASK_PERMISSIONS = 123;
+    boolean doubleBackToExitPressedOnce = false;
 GridView gridview;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -88,5 +90,23 @@ GridView gridview;
                 }
                 break;
         }
+    }
+    @Override
+    public void onBackPressed() {
+        if (doubleBackToExitPressedOnce) {
+            super.onBackPressed();
+            return;
+        }
+
+        this.doubleBackToExitPressedOnce = true;
+        Toast.makeText(this, "Please click BACK again to exit", Toast.LENGTH_SHORT).show();
+
+        new Handler().postDelayed(new Runnable() {
+
+            @Override
+            public void run() {
+                doubleBackToExitPressedOnce=false;
+            }
+        }, 500);
     }
 }
