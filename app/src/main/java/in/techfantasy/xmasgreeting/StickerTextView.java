@@ -33,17 +33,18 @@ public class StickerTextView extends StickerView{
 
     @Override
     public View getMainView() {
-        if(tv_main != null)
+        if(tv_main != null) {
             return tv_main;
+        }
 
         tv_main = new AutoResizeTextView(getContext());
         //tv_main.setTextSize(22);
         tv_main.setTextColor(Color.WHITE);
         tv_main.setGravity(Gravity.CENTER);
-        tv_main.setTextSize(400);
+        tv_main.setTextSize(100);
         tv_main.setShadowLayer(4, 0, 0, Color.BLACK);
 
-        tv_main.setMaxLines(1);
+        tv_main.setMaxLines(4);
 
         FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(
                 ViewGroup.LayoutParams.MATCH_PARENT,

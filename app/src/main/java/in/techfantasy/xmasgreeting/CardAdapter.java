@@ -47,6 +47,8 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.ViewHolder> {
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         TextView tv;
+        ColorPickerView cpv;
+        int textColor= Color.BLACK;
         public ViewHolder(View itemView) {
             super(itemView);
             tv=itemView.findViewById(R.id.textcard);
@@ -61,24 +63,25 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.ViewHolder> {
 
                     etxtText.setText(tv.getText().toString());
                     final TextView tv=d.findViewById(R.id.txtSubmit);
+                    cpv=d.findViewById(R.id.colorPickerView);
+                    cpv.setColorListener(new ColorListener() {
+                        @Override
+                        public void onColorSelected(int color) {
+                            etxtText.setTextColor(color);
+                            textColor=color;
+                        }
+                    });
                     tv.setOnClickListener(new View.OnClickListener() {
-                        int textColor= Color.BLACK;
+
                         @Override
                         public void onClick(View view) {
-                            ColorPickerView cpv=d.findViewById(R.id.colorPickerView);
-                            cpv.setColorListener(new ColorListener() {
-                                @Override
-                                public void onColorSelected(int color) {
-                                    etxtText.setTextColor(color);
-                                    textColor=color;
-                                }
-                            });
+
                             MainActivity.addGreet(etxtText.getText().toString(),ctx,textColor);
                             d.cancel();
                         }
                     });
                     d.show();
-                    
+
                 }
             });
 

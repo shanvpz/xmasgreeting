@@ -19,7 +19,7 @@ public class Splash extends AppCompatActivity {
             @Override
             public void run() {
                 try {
-                    sleep(5000);
+                    sleep(1000);
                     Intent in=new Intent(Splash.this,DefaultActivity.class);
                     startActivity(in);
                     finish();
