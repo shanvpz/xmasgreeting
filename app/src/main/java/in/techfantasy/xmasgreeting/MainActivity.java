@@ -1,11 +1,17 @@
 package in.techfantasy.xmasgreeting;
 
 import android.app.Dialog;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.LabeledIntent;
+import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
+import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
 import android.support.v7.app.AppCompatActivity;
@@ -26,7 +32,12 @@ import com.github.clans.fab.FloatingActionMenu;
 import com.skydoves.colorpickerview.ColorListener;
 import com.skydoves.colorpickerview.ColorPickerView;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -34,7 +45,7 @@ public class MainActivity extends AppCompatActivity {
     FloatingActionButton btnText,btnGreetings,btnSticker,btnImage,btnShare,btnAbout;
     Button btn;
     static FrameLayout canvas;
-    Dialog dialog;
+    static Dialog dialog;
     ImageView bgiv;
     static int greetcount=0;
     ArrayList<StickerTextView> stickerTextViewArrayList=new ArrayList<StickerTextView>();
@@ -148,8 +159,70 @@ public class MainActivity extends AppCompatActivity {
         btnShare.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
+                canvas.setDrawingCacheEnabled(true);
+                canvas.buildDrawingCache();
+                Bitmap bitmap = canvas.getDrawingCache();
+                Uri uri;
+                try {
+                    File file = new File(getBaseContext().getExternalFilesDir("Temp"), "file.png");
+                    FileOutputStream fOut = new FileOutputStream(file);
+                    bitmap.compress(Bitmap.CompressFormat.PNG, 100, fOut);
+                    fOut.flush();
+                    fOut.close();
+                    uri=Uri.fromFile(file);
+                    final PackageManager pm = MainActivity.this.getPackageManager();
+                    final Intent sendIntent = new Intent(Intent.ACTION_SEND);
+
+                    sendIntent.putExtra(Intent.EXTRA_STREAM,uri);
+                    sendIntent.setType("image/jpeg");
+                    List<ResolveInfo> resInfo = pm.queryIntentActivities(sendIntent, 0);
+                    List<LabeledIntent> intentList = new ArrayList<>();
+
+                    for (int i = 0; i < resInfo.size(); i++) {
+                        ResolveInfo ri = resInfo.get(i);
+                        String packageName = ri.activityInfo.packageName;
+                        final Intent intent = new Intent();
+                        intent.setComponent(new ComponentName(packageName, ri.activityInfo.name));
+                        intent.setPackage(packageName);
+                        intent.setAction(Intent.ACTION_SEND);
+                        intent.putExtra(Intent.EXTRA_STREAM,uri);
+                        intent.setType("image/jpeg");
+                        intentList.add(new LabeledIntent(intent, packageName, ri.loadLabel(pm), ri.getIconResource()));
+                    }
+
+                    for(int i=0;i < intentList.size();i++){
+                        LabeledIntent lin=intentList.get(i);
+
+                        if(lin.getPackage().equals("com.whatsapp")){
+                            LabeledIntent temp=intentList.get(1);
+                            intentList.remove(1);
+                            intentList.add(1,lin);
+                            intentList.remove(i);
+                            intentList.add(temp);
+                        }
+
+                        if(lin.getPackage().equals("com.instagram.android")){
+                            LabeledIntent temp=intentList.get(2);
+                            intentList.remove(2);
+                            intentList.add(2,lin);
+                            intentList.remove(i);
+                            intentList.add(temp);
+                        }
+                    }
+
+                    intentList.add((LabeledIntent) getSaveToGalleryIntent(MainActivity.this,uri));
+                    Intent openInChooser = Intent.createChooser(intentList.remove(0), "Share");
+                    LabeledIntent[] extraIntents = intentList.toArray(new LabeledIntent[intentList.size()]);
+                    openInChooser.putExtra(Intent.EXTRA_INITIAL_INTENTS, extraIntents);
+                    startActivity(openInChooser);
+
                 fam.close(true);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
+
         });
 
 
@@ -179,8 +252,6 @@ public class MainActivity extends AppCompatActivity {
                     }
                 });
                 dialog.show();
-
-
             }
         });
 
@@ -265,5 +336,13 @@ public class MainActivity extends AppCompatActivity {
         });
         greetArrayList.add(stv);
         canvas.addView(stv);
+        dialog.cancel();
+    }
+
+    private Intent getSaveToGalleryIntent(final Context context, final Uri imgUri) {
+        final Intent intent = new Intent(context,SaveToGalleryActivity.class);
+        intent.putExtra("savetogallery", imgUri.toString());
+        return new LabeledIntent(intent, BuildConfig.APPLICATION_ID,
+                "Save to gallery",android.R.drawable.ic_menu_save );
     }
 }
