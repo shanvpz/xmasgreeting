@@ -45,7 +45,7 @@ public class BackgroundGridAdapter extends BaseAdapter {
         View view1;
         view1=inflater.inflate(R.layout.griddefault,viewGroup,false);
         ImageView imageView=view1.findViewById(R.id.imageViewdefault);
-        //imageView.setImageResource(images[i]);
+        //imageView.setImageResource(image33[i]);
 
         imageView.setImageBitmap(
                 decodeSampledBitmapFromResource(Context.getResources(), images[i], 100, 100));

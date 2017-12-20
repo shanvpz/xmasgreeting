@@ -46,7 +46,7 @@ public class StickerGridAdapter extends BaseAdapter {
         View view1;
         view1=inflater.inflate(R.layout.dailogsticker,viewGroup,false);
         ImageView imageView=view1.findViewById(R.id.images);
-        //imageView.setImageResource(images[i]);
+        //imageView.setImageResource(image33[i]);
 
         imageView.setImageBitmap(
                 decodeSampledBitmapFromResource(Context.getResources(), images[i], 100, 100));
