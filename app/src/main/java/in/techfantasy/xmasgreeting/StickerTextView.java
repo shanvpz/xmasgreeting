@@ -34,18 +34,6 @@ public class StickerTextView extends StickerView{
     @Override
     public View getMainView() {
         if(tv_main != null) {
-            if(tv_main.length()>16){
-                tv_main.setMaxLines(2);
-            }
-            else if(tv_main.length()>32){
-                tv_main.setMaxLines(3);
-            }
-            else if(tv_main.length()>48){
-                tv_main.setMaxLines(4);
-            }
-            else if(tv_main.length()>56){
-                tv_main.setMaxLines(5);
-            }
             return tv_main;
         }
 
@@ -56,7 +44,7 @@ public class StickerTextView extends StickerView{
         tv_main.setTextSize(400);
         tv_main.setShadowLayer(4, 0, 0, Color.BLACK);
 
-        tv_main.setMaxLines(1);
+        tv_main.setMaxLines(4);
 
         FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(
                 ViewGroup.LayoutParams.MATCH_PARENT,
