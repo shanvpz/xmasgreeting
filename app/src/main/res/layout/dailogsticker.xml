@@ -5,6 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_margin="3dp"
     android:layout_width="match_parent"
+    android:background="@color/colorDialog"
     android:layout_height="wrap_content"
     android:orientation="vertical">
 
