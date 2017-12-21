@@ -18,8 +18,10 @@ import android.os.Bundle;
 import android.os.Parcelable;
 import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.util.Linkify;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -173,6 +175,27 @@ public class MainActivity extends AppCompatActivity {
                 dialog=new Dialog(MainActivity.this);
 
                 dialog.setContentView(R.layout.dailogabout);
+                TextView email=dialog.findViewById(R.id.textViewemail);
+                final CardView devCard=dialog.findViewById(R.id.devCard);
+                CardView cardBulb=dialog.findViewById(R.id.cardBulb);
+                devCard.setVisibility(View.INVISIBLE);
+                Linkify.addLinks(email,Linkify.EMAIL_ADDRESSES);
+
+                cardBulb.setOnClickListener(new View.OnClickListener() {
+                    boolean visible=false;
+                    @Override
+                    public void onClick(View view) {
+
+                        if(visible==false) {
+                            devCard.setVisibility(View.VISIBLE);
+                            visible=true;
+                        }
+                        else {
+                            devCard.setVisibility(View.INVISIBLE);
+                            visible=false;
+                        }
+                    }
+                });
                 dialog.setCanceledOnTouchOutside(true);
                 dialog.show();
             }
