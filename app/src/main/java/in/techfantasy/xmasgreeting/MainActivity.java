@@ -334,24 +334,30 @@ public class MainActivity extends AppCompatActivity {
         canvas = (FrameLayout) findViewById(R.id.canvasView);
         dialog=new Dialog(this);
         intent=getIntent();
+        Uri uri=null;
         try {
+            uri = Uri.parse(intent.getStringExtra("bgfromgallery"));
 
-            int bgkey=intent.getIntExtra("backgroundkey",-1);
-            if(bgkey==-1){
-                Uri uri = Uri.parse(intent.getStringExtra("bgfromgallery"));
-                Bitmap bitmap = MediaStore.Images.Media.getBitmap(MainActivity.this.getContentResolver(),uri);
-                bitmap.compress(Bitmap.CompressFormat.JPEG, 100, null);
-                bgiv.setImageBitmap(bitmap);
-            }
-            else {
-                int bgid = new DataStore().background[bgkey];
-                bgiv.setImageDrawable(getResources().getDrawable(bgid));
-            }
         }
         catch (Exception e){
 
         }
+        int bgkey=intent.getIntExtra("backgroundkey",0);
+        if(uri!=null){
 
+            Bitmap bitmap = null;
+            try {
+                bitmap = MediaStore.Images.Media.getBitmap(MainActivity.this.getContentResolver(),uri);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            //bitmap.compress(Bitmap.CompressFormat.JPEG, 100, null);
+            bgiv.setImageBitmap(bitmap);
+        }
+        else {
+            int bgid = new DataStore().background[bgkey];
+            bgiv.setImageDrawable(getResources().getDrawable(bgid));
+        }
 
 //        canvas.setBackground(getResources().getDrawable(bgid));
     }
@@ -473,6 +479,8 @@ public class MainActivity extends AppCompatActivity {
 
             } catch (IOException e) {
                 e.printStackTrace();
+
+
             }
             dialog = new Dialog(MainActivity.this);
             dialog.setContentView(R.layout.croplayout);
@@ -500,7 +508,8 @@ public class MainActivity extends AppCompatActivity {
 
                                 @Override
                                 public void onError(Throwable e) {
-                                    Toast.makeText(MainActivity.this,"Error adding Image",Toast.LENGTH_SHORT).show();
+                                    dialog.cancel();
+                                    Toast.makeText(MainActivity.this,"Unsupported file format.",Toast.LENGTH_SHORT).show();
                                 }
                             });
                 }
@@ -511,6 +520,7 @@ public class MainActivity extends AppCompatActivity {
         }
         else{
             //Toast.makeText(MainActivity.this,"Operation Cancelled",Toast.LENGTH_SHORT).show();
+
         }
 
 
