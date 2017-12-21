@@ -82,6 +82,7 @@ public class MainActivity extends AppCompatActivity {
                 fam.close(true);
                 dialog.setContentView(R.layout.dailogtext);
                 final EditText etxtText=dialog.findViewById(R.id.etxtTextAdd);
+
                 txtabril=dialog.findViewById(R.id.txtAbril);
                 txtalco=dialog.findViewById(R.id.txtAlco);
                 txtalmen=dialog.findViewById(R.id.txtAlmen);
