@@ -370,7 +370,7 @@ public class MainActivity extends AppCompatActivity {
     public Intent getPickImageChooserIntent() {
 
 // Determine Uri of camera image to  save.
-        Uri outputFileUri =  getCaptureImageOutputUri();
+       // Uri outputFileUri =  getCaptureImageOutputUri();
 
         List<Intent> allIntents = new  ArrayList<>();
         PackageManager packageManager =  getPackageManager();
