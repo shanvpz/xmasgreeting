@@ -70,7 +70,6 @@ public class MainActivity extends AppCompatActivity {
         getSupportActionBar().hide();
         initialize();
        // final LinearLayout.LayoutParams params=new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-        
 
 
 
@@ -325,6 +324,19 @@ public class MainActivity extends AppCompatActivity {
 //        });
 
 
+    }
+
+
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        try{
+            File file = new File(getBaseContext().getExternalFilesDir("Temp"), "file.png");
+            file.delete();
+        }catch (Exception E){
+
+        }
     }
 
 
