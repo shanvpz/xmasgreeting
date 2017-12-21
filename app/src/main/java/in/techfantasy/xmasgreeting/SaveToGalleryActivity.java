@@ -24,20 +24,20 @@ Intent in;
         in=getIntent();
         Uri u= Uri.parse(in.getStringExtra("savetogallery"));
         try {
-            File direct = new File(Environment.getExternalStorageDirectory() + "/ChristmasGreetings");
+            File direct = new File(Environment.getExternalStorageDirectory() + "/ChristmasWishes");
 
             if (!direct.exists()) {
-                File newDirectory = new File(Environment.getExternalStorageDirectory()+"/ChristmasGreetings");
+                File newDirectory = new File(Environment.getExternalStorageDirectory()+"/ChristmasWishes");
                 newDirectory.mkdirs();
             }
 
             String fileName = new SimpleDateFormat("yyyyMMddHHmmss").format(new Date());
-            FileOutputStream fileOutputStream = new FileOutputStream(Environment.getExternalStorageDirectory()+"/ChristmasGreetings/"+fileName+".jpeg");
+            FileOutputStream fileOutputStream = new FileOutputStream(Environment.getExternalStorageDirectory()+"/ChristmasWishes/"+fileName+".jpeg");
             Bitmap bitmap = MediaStore.Images.Media.getBitmap(SaveToGalleryActivity.this.getContentResolver(),u);
             bitmap.compress(Bitmap.CompressFormat.JPEG, 100, fileOutputStream);
             fileOutputStream.flush();
             fileOutputStream.close();
-            Toast.makeText(this, "File Saved Sucessfully\n"+direct, Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "File saved sucessfully\n"+direct, Toast.LENGTH_LONG).show();
         } catch (Exception e) {
             e.printStackTrace();
         }
