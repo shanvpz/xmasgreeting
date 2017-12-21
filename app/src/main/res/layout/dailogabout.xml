@@ -4,14 +4,15 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@drawable/redbg"
+    android:background="@color/colorDialog"
     android:orientation="vertical">
 
     <TextView
         android:id="@+id/textabout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="ABOUT US"
+        android:text="About Us"
+        android:textColor="@color/colorDialogText"
         android:textAlignment="center"
         android:textSize="20dp"
         android:textStyle="bold"
@@ -22,19 +23,15 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
-        android:paddingBottom="20dp"
-
-        android:paddingTop="20dp"
         app:cardCornerRadius="5dp"
-
         app:cardElevation="25dp">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-
-            >
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp">
 
             <ImageView
                 android:id="@+id/imageView"
@@ -42,7 +39,6 @@
                 android:layout_height="100dp"
                 android:layout_gravity="center"
                 android:src="@drawable/idea" />
-
             <TextView
                 android:id="@+id/textView"
                 android:layout_width="match_parent"
@@ -51,14 +47,58 @@
                 android:textAlignment="center"
                 android:textColor="@color/cardview_dark_background"
                 android:textSize="30sp" />
-
             <TextView
-                android:id="@+id/textView1"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:text="jnsc@gmail.com"
+                android:text="Make . Simple . Grow"
+                android:textAlignment="center"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/textViewemail"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="e4exceptions@gmail.com"
                 android:textAlignment="center"
                 android:textSize="14sp" />
+        </LinearLayout>
+    </android.support.v7.widget.CardView>
+
+    <android.support.v7.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:paddingBottom="20dp"
+        android:paddingTop="20dp"
+        app:cardCornerRadius="5dp"
+        app:cardElevation="25dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp">
+
+            <ImageView
+                android:layout_width="85dp"
+                android:layout_height="85dp"
+                android:layout_gravity="center"
+                android:src="@drawable/cb" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="Cerebtech"
+                android:textAlignment="center"
+                android:textColor="@color/cardview_dark_background"
+                android:textSize="30sp" />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="Digitial Transformers"
+                android:textAlignment="center"
+                android:textSize="16sp" />
         </LinearLayout>
     </android.support.v7.widget.CardView>
 
@@ -68,24 +108,20 @@
         android:layout_marginBottom="10dp"
         android:layout_marginTop="10dp"
         app:cardCornerRadius="5dp"
-        android:visibility="invisible"
-        app:cardElevation="25dp"
-
-        >
-
+        app:cardElevation="25dp">
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-         >
-
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
+            android:orientation="vertical">
 
             <TextView
                 android:id="@+id/textView2"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Developers" />
-
+                android:text="Developers"
+                android:textAlignment="center" />
             <TextView
                 android:id="@+id/textView6"
                 android:layout_width="match_parent"
@@ -93,30 +129,26 @@
                 android:text="Team Exceptions"
                 android:textAlignment="center"
                 android:textColor="@color/cardview_dark_background"
-                android:textSize="18sp" />
-
+                android:textSize="19sp" />
             <TextView
                 android:id="@+id/textView3"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:text="Shan K.M | Jobin Joy"
+                android:text="Shan K.M | Chinju KRK"
                 android:textAlignment="center" />
-
             <TextView
                 android:id="@+id/textView4"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:text="Chinju K.V| Neethu V.S"
+                android:text="Jobin Joy | Neethu V.S"
                 android:textAlignment="center" />
-
             <TextView
                 android:id="@+id/textView5"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:text="Tech Support : Ambily P.S "
+                android:text="Special thanks : Ambily P.S "
                 android:textAlignment="center" />
         </LinearLayout>
-
     </android.support.v7.widget.CardView>
 
 </LinearLayout>
