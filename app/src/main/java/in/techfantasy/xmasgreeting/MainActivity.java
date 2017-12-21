@@ -124,6 +124,7 @@ public class MainActivity extends AppCompatActivity {
                         font="aclonica.ttf";
                     }
                 });
+
                 dialog.show();
 
 
@@ -145,9 +146,14 @@ public class MainActivity extends AppCompatActivity {
                                 stv.setControlItemsHidden(false);
                             }
                         });
-                        stickerTextViewArrayList.add(stv);
-                        canvas.addView(stv);
-                        dialog.cancel();
+                        if(etxtText.getText().toString().equals("")){
+                            Toast.makeText(MainActivity.this,"Please enter text",Toast.LENGTH_SHORT).show();
+                        }
+                        else {
+                            stickerTextViewArrayList.add(stv);
+                            canvas.addView(stv);
+                            dialog.cancel();
+                        }
                     }
                 });
 //                i=i+1;
@@ -176,6 +182,7 @@ public class MainActivity extends AppCompatActivity {
         btnShare.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                unselect();
                     new TestTask().execute();
                 //dialog.setContentView();
 
@@ -278,6 +285,7 @@ public class MainActivity extends AppCompatActivity {
         btnGreetings.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                fam.close(true);
                 dialog.setContentView(R.layout.dailoggreeting);
                 RecyclerView rv=dialog.findViewById(R.id.greetingrecycle);
                 rv.setLayoutManager(new LinearLayoutManager(MainActivity.this,LinearLayoutManager.VERTICAL,false));
@@ -301,18 +309,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 fam.close(true);
-                for(StickerTextView stv:stickerTextViewArrayList){
-                    stv.setControlItemsHidden(true);
-                }
-                for(StickerImageView siv:stickerImageViewArrayList){
-                    siv.setControlItemsHidden(true);
-                }
-                for (StickerTextView stvg:greetArrayList){
-                    stvg.setControlItemsHidden(true);
-                }
-                for (StickerImageView sivi:imagesArrayList){
-                    sivi.setControlItemsHidden(true);
-                }
+                unselect();
             }
         });
 //        canvas.setOnLongClickListener(new View.OnLongClickListener() {
@@ -327,6 +324,20 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    public void unselect(){
+        for(StickerTextView stv:stickerTextViewArrayList){
+            stv.setControlItemsHidden(true);
+        }
+        for(StickerImageView siv:stickerImageViewArrayList){
+            siv.setControlItemsHidden(true);
+        }
+        for (StickerTextView stvg:greetArrayList){
+            stvg.setControlItemsHidden(true);
+        }
+        for (StickerImageView sivi:imagesArrayList){
+            sivi.setControlItemsHidden(true);
+        }
+    }
 
 
     @Override
