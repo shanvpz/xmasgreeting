@@ -29,7 +29,7 @@ public class DataStore {
             R.drawable.image16,R.drawable.image17, R.drawable.image18,R.drawable.image19,R.drawable.image20,
             R.drawable.image21, R.drawable.image22,R.drawable.image23,R.drawable.image24,
             R.drawable.image25, R.drawable.image26, R.drawable.image27,R.drawable.image28,
-            R.drawable.image29,R.drawable.image30,R.drawable.image31,R.drawable.image32,R.drawable.image33};
+            R.drawable.image29,R.drawable.image30};
 
    public String[] greetings={" Merry Christmas, and may this new year bring you joy and laughter. To be happy is the greatest wish in life.",
            " I wish you a blessed holiday season. May this Christmas bring you comfort, joy, peace and happiness to last throughout the coming year!" ,

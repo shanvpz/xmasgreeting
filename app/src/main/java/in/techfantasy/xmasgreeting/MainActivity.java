@@ -64,6 +64,7 @@ public class MainActivity extends AppCompatActivity {
     private Uri picUri;
     final int CROP_PIC = 2;
     boolean doubleBackToExitPressedOnce = false;
+    String TempFileName="ChristmasWishes.png";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -367,7 +368,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onDestroy() {
         super.onDestroy();
         try{
-            File file = new File(getBaseContext().getExternalFilesDir("Temp"), "file.png");
+            File file = new File(getBaseContext().getExternalFilesDir("Temp"), TempFileName);
             file.delete();
         }catch (Exception E){
 
@@ -625,7 +626,7 @@ public class MainActivity extends AppCompatActivity {
             Bitmap bitmap = canvas.getDrawingCache();
             Uri uri;
             try {
-                File file = new File(getBaseContext().getExternalFilesDir("Temp"), "file.png");
+                File file = new File(getBaseContext().getExternalFilesDir("Temp"), TempFileName);
                 FileOutputStream fOut = new FileOutputStream(file);
                 bitmap.compress(Bitmap.CompressFormat.PNG, 100, fOut);
                 fOut.flush();
@@ -687,7 +688,7 @@ public class MainActivity extends AppCompatActivity {
 
         protected void onPreExecute() {
             //show dialog
-            pd.setTitle("Rendering Image");
+            pd.setTitle("Loading...");
             pd.setMessage("Please be patient...");
             pd.setProgressStyle(ProgressDialog.STYLE_SPINNER);
             pd.setIndeterminate(true);
