@@ -2,13 +2,19 @@ package in.techfantasy.xmasgreeting;
 
 import android.Manifest;
 import android.app.AlertDialog;
+import android.app.Dialog;
+import android.content.ComponentName;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Parcelable;
+import android.provider.MediaStore;
 import android.provider.Settings;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
@@ -17,16 +23,27 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
+
+import com.isseiaoki.simplecropview.CropImageView;
+import com.isseiaoki.simplecropview.callback.CropCallback;
+
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class DefaultActivity extends AppCompatActivity {
     final int REQUEST_CODE_ASK_PERMISSIONS = 123;
     boolean doubleBackToExitPressedOnce = false;
 GridView gridview;
+TextView textfromgallery;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_default);
+        textfromgallery=findViewById(R.id.textViewgallery);
 
         if (Build.VERSION.SDK_INT < 23) {
             //your code here
@@ -34,9 +51,16 @@ GridView gridview;
             requestruntimePermission();
         }
 
+        textfromgallery.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivityForResult(getPickImageChooserIntent(),143);
+
+
+            }
+        });
 
         gridview = findViewById(R.id.gridbackground);
-
         gridview.setAdapter(new BackgroundGridAdapter(DefaultActivity.this, new DataStore().background));
 
         gridview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -109,5 +133,81 @@ GridView gridview;
                 doubleBackToExitPressedOnce=false;
             }
         }, 1900);
+    }
+
+
+    public Intent getPickImageChooserIntent() {
+
+// Determine Uri of camera image to  save.
+// Uri outputFileUri =  getCaptureImageOutputUri();
+
+        List<Intent> allIntents = new ArrayList<>();
+        PackageManager packageManager =  getPackageManager();
+
+// collect all gallery intents
+        Intent galleryIntent = new  Intent(Intent.ACTION_GET_CONTENT);
+        galleryIntent.setType("image/*");
+        List<ResolveInfo> listGallery =  packageManager.queryIntentActivities(galleryIntent, 0);
+        for (ResolveInfo res : listGallery) {
+            Intent intent = new  Intent(galleryIntent);
+            intent.setComponent(new ComponentName(res.activityInfo.packageName, res.activityInfo.name));
+            intent.setPackage(res.activityInfo.packageName);
+            allIntents.add(intent);
+        }
+
+// the main intent is the last in the  list (fucking android) so pickup the useless one
+        Intent mainIntent =  allIntents.get(allIntents.size() - 1);
+        for (Intent intent : allIntents) {
+            if  (intent.getComponent().getClassName().equals("com.android.documentsui.DocumentsActivity"))  {
+                mainIntent = intent;
+                break;
+            }
+        }
+
+        allIntents.remove(mainIntent);
+// Create a chooser from the main  intent
+        Intent chooserIntent =  Intent.createChooser(mainIntent, "Select source");
+// Add all other intents
+        chooserIntent.putExtra(Intent.EXTRA_INITIAL_INTENTS,  allIntents.toArray(new Parcelable[allIntents.size()]));
+        return chooserIntent;
+    }
+
+
+
+    private Uri getCaptureImageOutputUri() {
+        Uri outputFileUri = null;
+        File getImage = getExternalCacheDir();
+        if (getImage != null) {
+            outputFileUri = Uri.fromFile(new  File(getImage.getPath(), "pickImageResult.jpeg"));
+        }
+        return outputFileUri;
+    }
+
+
+    public Uri getPickImageResultUri(Intent  data) {
+        boolean isCamera = true;
+        if (data != null && data.getData() != null) {
+            String action = data.getAction();
+            isCamera = action != null  && action.equals(MediaStore.ACTION_IMAGE_CAPTURE);
+        }
+        return isCamera ?  getCaptureImageOutputUri() : data.getData();
+    }
+
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if(resultCode==RESULT_OK && requestCode==143) {
+            final Uri imageUri = getPickImageResultUri(data);
+          Intent intent=new Intent(DefaultActivity.this,MainActivity.class);
+            intent.putExtra("bgfromgallery", imageUri.toString());
+            startActivity(intent);
+            finish();
+
+        }
+        else{
+            //Toast.makeText(MainActivity.this,"Operation Cancelled",Toast.LENGTH_SHORT).show();
+        }
     }
 }
