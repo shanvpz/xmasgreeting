@@ -329,14 +329,30 @@ public class MainActivity extends AppCompatActivity {
         btnImage=findViewById(R.id.btnImage);
         btnShare=findViewById(R.id.btnSaveShare);
         btnAbout=findViewById(R.id.btnAbout);
+        bgiv = findViewById(R.id.bgImageView);
         fam=findViewById(R.id.menu);
         canvas = (FrameLayout) findViewById(R.id.canvasView);
         dialog=new Dialog(this);
         intent=getIntent();
-        int bgkey=intent.getIntExtra("backgroundkey",0);
-        int bgid=new DataStore().background[bgkey];
-        bgiv=findViewById(R.id.bgImageView);
-        bgiv.setImageDrawable(getResources().getDrawable(bgid));
+        try {
+
+            int bgkey=intent.getIntExtra("backgroundkey",-1);
+            if(bgkey==-1){
+                Uri uri = Uri.parse(intent.getStringExtra("bgfromgallery"));
+                Bitmap bitmap = MediaStore.Images.Media.getBitmap(MainActivity.this.getContentResolver(),uri);
+                bitmap.compress(Bitmap.CompressFormat.JPEG, 100, null);
+                bgiv.setImageBitmap(bitmap);
+            }
+            else {
+                int bgid = new DataStore().background[bgkey];
+                bgiv.setImageDrawable(getResources().getDrawable(bgid));
+            }
+        }
+        catch (Exception e){
+
+        }
+
+
 //        canvas.setBackground(getResources().getDrawable(bgid));
     }
     public static void addGreet(String msg,Context ctx,int textColor){
@@ -446,7 +462,7 @@ public class MainActivity extends AppCompatActivity {
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if(resultCode==RESULT_OK) {
+        if(resultCode==RESULT_OK&&requestCode==123) {
             final Uri imageUri = getPickImageResultUri(data);
 
 
