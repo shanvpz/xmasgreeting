@@ -2,6 +2,7 @@ package in.techfantasy.xmasgreeting;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -12,6 +13,7 @@ import android.content.pm.ResolveInfo;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.provider.MediaStore;
@@ -170,70 +172,70 @@ public class MainActivity extends AppCompatActivity {
         btnShare.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                    new TestTask().execute();
                 //dialog.setContentView();
 
-                canvas.setDrawingCacheEnabled(true);
-                canvas.buildDrawingCache();
-                Bitmap bitmap = canvas.getDrawingCache();
-                Uri uri;
-                try {
-                    File file = new File(getBaseContext().getExternalFilesDir("Temp"), "file.png");
-                    FileOutputStream fOut = new FileOutputStream(file);
-                    bitmap.compress(Bitmap.CompressFormat.PNG, 100, fOut);
-                    fOut.flush();
-                    fOut.close();
-                    uri=Uri.fromFile(file);
-                    final PackageManager pm = MainActivity.this.getPackageManager();
-                    final Intent sendIntent = new Intent(Intent.ACTION_SEND);
-
-                    sendIntent.putExtra(Intent.EXTRA_STREAM,uri);
-                    sendIntent.setType("image/jpeg");
-                    List<ResolveInfo> resInfo = pm.queryIntentActivities(sendIntent, 0);
-                    List<LabeledIntent> intentList = new ArrayList<>();
-
-                    for (int i = 0; i < resInfo.size(); i++) {
-                        ResolveInfo ri = resInfo.get(i);
-                        String packageName = ri.activityInfo.packageName;
-                        final Intent intent = new Intent();
-                        intent.setComponent(new ComponentName(packageName, ri.activityInfo.name));
-                        intent.setPackage(packageName);
-                        intent.setAction(Intent.ACTION_SEND);
-                        intent.putExtra(Intent.EXTRA_STREAM,uri);
-                        intent.setType("image/jpeg");
-                        intentList.add(new LabeledIntent(intent, packageName, ri.loadLabel(pm), ri.getIconResource()));
-                    }
-
-                    for(int i=0;i < intentList.size();i++){
-                        LabeledIntent lin=intentList.get(i);
-
-                        if(lin.getPackage().equals("com.whatsapp")){
-                            LabeledIntent temp=intentList.get(1);
-                            intentList.remove(1);
-                            intentList.add(1,lin);
-                            intentList.remove(i);
-                            intentList.add(temp);
-                        }
-
-                        if(lin.getPackage().equals("com.instagram.android")){
-                            LabeledIntent temp=intentList.get(2);
-                            intentList.remove(2);
-                            intentList.add(2,lin);
-                            intentList.remove(i);
-                            intentList.add(temp);
-                        }
-                    }
-
-                    intentList.add((LabeledIntent) getSaveToGalleryIntent(MainActivity.this,uri));
-                    Intent openInChooser = Intent.createChooser(intentList.remove(0), "Share");
-                    LabeledIntent[] extraIntents = intentList.toArray(new LabeledIntent[intentList.size()]);
-                    openInChooser.putExtra(Intent.EXTRA_INITIAL_INTENTS, extraIntents);
-                    startActivity(openInChooser);
-
-                fam.close(true);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
+//                canvas.setDrawingCacheEnabled(true);
+//                canvas.buildDrawingCache();
+//                Bitmap bitmap = canvas.getDrawingCache();
+//                Uri uri;
+//                try {
+//                    File file = new File(getBaseContext().getExternalFilesDir("Temp"), "file.png");
+//                    FileOutputStream fOut = new FileOutputStream(file);
+//                    bitmap.compress(Bitmap.CompressFormat.PNG, 100, fOut);
+//                    fOut.flush();
+//                    fOut.close();
+//                    uri=Uri.fromFile(file);
+//                    final PackageManager pm = MainActivity.this.getPackageManager();
+//                    final Intent sendIntent = new Intent(Intent.ACTION_SEND);
+//
+//                    sendIntent.putExtra(Intent.EXTRA_STREAM,uri);
+//                    sendIntent.setType("image/jpeg");
+//                    List<ResolveInfo> resInfo = pm.queryIntentActivities(sendIntent, 0);
+//                    List<LabeledIntent> intentList = new ArrayList<>();
+//
+//                    for (int i = 0; i < resInfo.size(); i++) {
+//                        ResolveInfo ri = resInfo.get(i);
+//                        String packageName = ri.activityInfo.packageName;
+//                        final Intent intent = new Intent();
+//                        intent.setComponent(new ComponentName(packageName, ri.activityInfo.name));
+//                        intent.setPackage(packageName);
+//                        intent.setAction(Intent.ACTION_SEND);
+//                        intent.putExtra(Intent.EXTRA_STREAM,uri);
+//                        intent.setType("image/jpeg");
+//                        intentList.add(new LabeledIntent(intent, packageName, ri.loadLabel(pm), ri.getIconResource()));
+//                    }
+//
+//                    for(int i=0;i < intentList.size();i++){
+//                        LabeledIntent lin=intentList.get(i);
+//
+//                        if(lin.getPackage().equals("com.whatsapp")){
+//                            LabeledIntent temp=intentList.get(1);
+//                            intentList.remove(1);
+//                            intentList.add(1,lin);
+//                            intentList.remove(i);
+//                            intentList.add(temp);
+//                        }
+//
+//                        if(lin.getPackage().equals("com.instagram.android")){
+//                            LabeledIntent temp=intentList.get(2);
+//                            intentList.remove(2);
+//                            intentList.add(2,lin);
+//                            intentList.remove(i);
+//                            intentList.add(temp);
+//                        }
+//                    }
+//
+//                    intentList.add((LabeledIntent) getSaveToGalleryIntent(MainActivity.this,uri));
+//                    Intent openInChooser = Intent.createChooser(intentList.remove(0), "Share");
+//                    LabeledIntent[] extraIntents = intentList.toArray(new LabeledIntent[intentList.size()]);
+//                    openInChooser.putExtra(Intent.EXTRA_INITIAL_INTENTS, extraIntents);
+//                    startActivity(openInChooser);
+//
+//                fam.close(true);
+//                } catch (Exception e) {
+//                    e.printStackTrace();
+//                }
             }
 
         });
@@ -329,14 +331,36 @@ public class MainActivity extends AppCompatActivity {
         btnImage=findViewById(R.id.btnImage);
         btnShare=findViewById(R.id.btnSaveShare);
         btnAbout=findViewById(R.id.btnAbout);
+        bgiv = findViewById(R.id.bgImageView);
         fam=findViewById(R.id.menu);
         canvas = (FrameLayout) findViewById(R.id.canvasView);
         dialog=new Dialog(this);
         intent=getIntent();
+        Uri uri=null;
+        try {
+            uri = Uri.parse(intent.getStringExtra("bgfromgallery"));
+
+        }
+        catch (Exception e){
+
+        }
         int bgkey=intent.getIntExtra("backgroundkey",0);
-        int bgid=new DataStore().background[bgkey];
-        bgiv=findViewById(R.id.bgImageView);
-        bgiv.setImageDrawable(getResources().getDrawable(bgid));
+        if(uri!=null){
+
+            Bitmap bitmap = null;
+            try {
+                bitmap = MediaStore.Images.Media.getBitmap(MainActivity.this.getContentResolver(),uri);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            //bitmap.compress(Bitmap.CompressFormat.JPEG, 100, null);
+            bgiv.setImageBitmap(bitmap);
+        }
+        else {
+            int bgid = new DataStore().background[bgkey];
+            bgiv.setImageDrawable(getResources().getDrawable(bgid));
+        }
+
 //        canvas.setBackground(getResources().getDrawable(bgid));
     }
     public static void addGreet(String msg,Context ctx,int textColor){
@@ -446,7 +470,7 @@ public class MainActivity extends AppCompatActivity {
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if(resultCode==RESULT_OK) {
+        if(resultCode==RESULT_OK&&requestCode==123) {
             final Uri imageUri = getPickImageResultUri(data);
 
 
@@ -457,6 +481,8 @@ public class MainActivity extends AppCompatActivity {
 
             } catch (IOException e) {
                 e.printStackTrace();
+
+
             }
             dialog = new Dialog(MainActivity.this);
             dialog.setContentView(R.layout.croplayout);
@@ -484,7 +510,8 @@ public class MainActivity extends AppCompatActivity {
 
                                 @Override
                                 public void onError(Throwable e) {
-                                    Toast.makeText(MainActivity.this,"Error adding Image",Toast.LENGTH_SHORT).show();
+                                    dialog.cancel();
+                                    Toast.makeText(MainActivity.this,"Unsupported file format.",Toast.LENGTH_SHORT).show();
                                 }
                             });
                 }
@@ -495,6 +522,7 @@ public class MainActivity extends AppCompatActivity {
         }
         else{
             //Toast.makeText(MainActivity.this,"Operation Cancelled",Toast.LENGTH_SHORT).show();
+
         }
 
 
@@ -531,5 +559,95 @@ public class MainActivity extends AppCompatActivity {
 
             }
         }).show();
+    }
+
+
+
+    ////////////////////////////////
+    private class TestTask extends AsyncTask<Void, Void, Integer> {
+        ProgressDialog pd=new ProgressDialog(MainActivity.this);
+
+        @Override
+        protected Integer doInBackground(Void... voids) {
+            canvas.setDrawingCacheEnabled(true);
+            canvas.buildDrawingCache();
+            Bitmap bitmap = canvas.getDrawingCache();
+            Uri uri;
+            try {
+                File file = new File(getBaseContext().getExternalFilesDir("Temp"), "file.png");
+                FileOutputStream fOut = new FileOutputStream(file);
+                bitmap.compress(Bitmap.CompressFormat.PNG, 100, fOut);
+                fOut.flush();
+                fOut.close();
+                uri=Uri.fromFile(file);
+                final PackageManager pm = MainActivity.this.getPackageManager();
+                final Intent sendIntent = new Intent(Intent.ACTION_SEND);
+
+                sendIntent.putExtra(Intent.EXTRA_STREAM,uri);
+                sendIntent.setType("image/jpeg");
+                List<ResolveInfo> resInfo = pm.queryIntentActivities(sendIntent, 0);
+                List<LabeledIntent> intentList = new ArrayList<>();
+
+                for (int i = 0; i < resInfo.size(); i++) {
+                    ResolveInfo ri = resInfo.get(i);
+                    String packageName = ri.activityInfo.packageName;
+                    final Intent intent = new Intent();
+                    intent.setComponent(new ComponentName(packageName, ri.activityInfo.name));
+                    intent.setPackage(packageName);
+                    intent.setAction(Intent.ACTION_SEND);
+                    intent.putExtra(Intent.EXTRA_STREAM,uri);
+                    intent.setType("image/jpeg");
+                    intentList.add(new LabeledIntent(intent, packageName, ri.loadLabel(pm), ri.getIconResource()));
+                }
+
+                for(int i=0;i < intentList.size();i++){
+                    LabeledIntent lin=intentList.get(i);
+
+                    if(lin.getPackage().equals("com.whatsapp")){
+                        LabeledIntent temp=intentList.get(1);
+                        intentList.remove(1);
+                        intentList.add(1,lin);
+                        intentList.remove(i);
+                        intentList.add(temp);
+                    }
+
+                    if(lin.getPackage().equals("com.instagram.android")){
+                        LabeledIntent temp=intentList.get(2);
+                        intentList.remove(2);
+                        intentList.add(2,lin);
+                        intentList.remove(i);
+                        intentList.add(temp);
+                    }
+                }
+
+                intentList.add((LabeledIntent) getSaveToGalleryIntent(MainActivity.this,uri));
+                Intent openInChooser = Intent.createChooser(intentList.remove(0), "Share");
+                LabeledIntent[] extraIntents = intentList.toArray(new LabeledIntent[intentList.size()]);
+                openInChooser.putExtra(Intent.EXTRA_INITIAL_INTENTS, extraIntents);
+                startActivity(openInChooser);
+
+                fam.close(true);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+            return 1;
+        }
+
+        protected void onPreExecute() {
+            //show dialog
+            pd.setTitle("Rendering Image");
+            pd.setMessage("Please be patient...");
+            pd.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+            pd.setIndeterminate(true);
+            pd.show();
+        }
+
+
+
+        protected void onPostExecute(Integer result) {
+            //cancel dialog
+            pd.cancel();
+        }
     }
 }
