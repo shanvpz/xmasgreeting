@@ -14,7 +14,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:ems="10"
-        android:hint="Enter your text"
+        android:hint="Click here to enter your text"
         android:inputType="textPersonName"
         />
 
@@ -89,7 +89,7 @@
         android:id="@+id/txtSubmit"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="OK"
+        android:text="Next"
         android:textAlignment="center"/>
 
 
