@@ -32,7 +32,7 @@ Intent in;
             }
 
             String fileName = new SimpleDateFormat("yyyyMMddHHmmss").format(new Date());
-            FileOutputStream fileOutputStream = new FileOutputStream(Environment.getExternalStorageDirectory()+"/ChristmasWishes/"+fileName+".jpeg");
+            FileOutputStream fileOutputStream = new FileOutputStream(Environment.getExternalStorageDirectory()+"/ChristmasWishes/"+fileName+".jpg");
             Bitmap bitmap = MediaStore.Images.Media.getBitmap(SaveToGalleryActivity.this.getContentResolver(),u);
             bitmap.compress(Bitmap.CompressFormat.JPEG, 100, fileOutputStream);
             fileOutputStream.flush();

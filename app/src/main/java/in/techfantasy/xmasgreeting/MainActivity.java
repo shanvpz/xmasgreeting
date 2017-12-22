@@ -440,7 +440,7 @@ public class MainActivity extends AppCompatActivity {
         final Intent intent = new Intent(context,SaveToGalleryActivity.class);
         intent.putExtra("savetogallery", imgUri.toString());
         return new LabeledIntent(intent, BuildConfig.APPLICATION_ID,
-                "Save to gallery",android.R.drawable.ic_menu_save );
+                "Save to Phone",android.R.drawable.ic_menu_save );
     }
 
     public Intent getPickImageChooserIntent() {
